@@ -10,24 +10,35 @@ const controls = [
   { label: "Meat", type: "meat" }
 ]
 
-const BuildControls = props => (
-  <div className={classes.BuildControls}>
-    <p>Current Price: <strong>{props.price.toFixed(2)}</strong></p>
-    {controls.map((ctrl, index) => (
-      <BuildControl
-        key={ctrl.label + index}
-        label={ctrl.label}
-        type={ctrl.type}
-        added={() => props.ingredientAdded(ctrl.type)}
-        removed={() => props.ingredientRemoved(ctrl.type)}
-        disabled={props.disabled[ctrl.type]}
-      />
-    ))}
-    <button 
-    className={classes.OrderButton}
-    disabled={!props.purchasable}
-    >ORDER NOW</button>
-  </div>
-);
+const BuildControls = props => {
+  const {
+    price,
+    ingredientAdded,
+    ingredientRemoved,
+    disabled,
+    purchasable,
+    ordered
+  } = props;
+  
+  return (
+    <div className={classes.BuildControls}>
+      <p>Current Price: <strong>{price.toFixed(2)}</strong></p>
+      {controls.map((ctrl, index) => (
+        <BuildControl
+          key={ctrl.label + index}
+          label={ctrl.label}
+          type={ctrl.type}
+          added={() => ingredientAdded(ctrl.type)}
+          removed={() => ingredientRemoved(ctrl.type)}
+          disabled={disabled[ctrl.type]}
+        />
+      ))}
+      <button 
+        className={classes.OrderButton}
+        disabled={!purchasable}
+        onClick={ordered}
+      >ORDER NOW</button>
+    </div>
+  )};
 
 export default BuildControls;
